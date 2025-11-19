@@ -1,15 +1,15 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { LandingPage } from './components/Login.tsx';
-import { LoginModal } from './components/LoginModal.tsx';
-import { Pricing } from './components/Pricing.tsx';
-import { ProjectDashboard } from './components/ProjectDashboard.tsx';
-import { ProjectView } from './components/ProjectView.tsx';
-import { AdminDashboard } from './components/AdminDashboard.tsx';
-import * as backend from './services/backendService.ts';
-import type { User, Plan, Project, SalesInquiry, AppNotification, TeamMemberInquiry, RoboflowModel, Review } from './types.ts';
-import { Plan as PlanEnum, SubscriptionStatus } from './types.ts';
-import { PermissionPrimer } from './components/PermissionPrimer.tsx';
+import { LandingPage } from './components/Login';
+import { LoginModal } from './components/LoginModal';
+import { Pricing } from './components/Pricing';
+import { ProjectDashboard } from './components/ProjectDashboard';
+import { ProjectView } from './components/ProjectView';
+import { AdminDashboard } from './components/AdminDashboard';
+import * as backend from './services/backendService';
+import type { User, Plan, Project, SalesInquiry, TeamMemberInquiry, RoboflowModel, Review } from './types';
+import { Plan as PlanEnum } from './types';
+import { PermissionPrimer } from './components/PermissionPrimer';
 
 const App: React.FC = () => {
     // State
@@ -39,10 +39,10 @@ const App: React.FC = () => {
                 backend.getAllSalesInquiries(),
                 backend.getAllTeamMemberInquiries(),
             ]);
-            const nonAdminUsers = users.filter(u => !u.isAdmin);
-            const enrichedUsers = nonAdminUsers.map(u => ({
+            const nonAdminUsers = users.filter((u: User) => !u.isAdmin);
+            const enrichedUsers = nonAdminUsers.map((u: User) => ({
                 ...u,
-                projectCount: projects.filter(p => p.userEmail === u.email).length
+                projectCount: projects.filter((p: Project) => p.userEmail === u.email).length
             }));
             setAllUsers(enrichedUsers);
             setSalesInquiries(inquiries);
@@ -54,7 +54,7 @@ const App: React.FC = () => {
                 backend.getAllUsers()
             ]);
             setProjects(userProjects);
-            setAllUsers(allSystemUsers.filter(u => !u.isAdmin));
+            setAllUsers(allSystemUsers.filter((u: User) => !u.isAdmin));
         }
     }, []);
     
@@ -79,7 +79,7 @@ const App: React.FC = () => {
         const initializeApp = async () => {
             await backend.initializeData();
             const models = await backend.getRoboflowModels();
-            const active = models.find(m => m.isActive) || null;
+            const active = models.find((m: RoboflowModel) => m.isActive) || null;
             setRoboflowModels(models);
             setActiveModel(active);
             setReviews(await backend.getReviews());
@@ -148,7 +148,7 @@ const App: React.FC = () => {
     const handleUpdateAllUsers = async (updatedUsers: User[]) => {
         await backend.saveAllUsers(updatedUsers);
         const projects = await backend.getAllProjects();
-        const enriched = updatedUsers.map(u => ({...u, projectCount: projects.filter(p => p.userEmail === u.email).length }));
+        const enriched = updatedUsers.map((u: User) => ({...u, projectCount: projects.filter((p: Project) => p.userEmail === u.email).length }));
         setAllUsers(enriched);
     };
     
@@ -158,7 +158,7 @@ const App: React.FC = () => {
         }
         await backend.deleteUserAndProjects(userToDelete.email);
         const users = await backend.getAllUsers();
-        setAllUsers(users.filter(u => !u.isAdmin));
+        setAllUsers(users.filter((u: User) => !u.isAdmin));
     };
     
     const handlePlanSelect = async (plan: Plan, details?: any) => {
@@ -187,7 +187,7 @@ const App: React.FC = () => {
     const handleApproveAddMemberRequest = async (inquiryId: string) => {
         const { updatedUsers, updatedInquiries } = await backend.approveTeamMemberInquiry(inquiryId);
         setTeamMemberInquiries(updatedInquiries);
-        await handleUpdateAllUsers(updatedUsers.filter(u => !u.isAdmin)); // Trigger a full user refresh
+        await handleUpdateAllUsers(updatedUsers.filter((u: User) => !u.isAdmin)); // Trigger a full user refresh
     };
 
     const handleRejectAddMemberRequest = async (inquiryId: string) => {
@@ -200,7 +200,7 @@ const App: React.FC = () => {
     const handleUpdateTeam = async (updatedOwner: User) => {
         const updatedUsers = await backend.updateTeamMembers(updatedOwner);
         if (user?.email === updatedOwner.email) setUser(updatedOwner);
-        await handleUpdateAllUsers(updatedUsers.filter(u => !u.isAdmin));
+        await handleUpdateAllUsers(updatedUsers.filter((u: User) => !u.isAdmin));
     };
     
     const handleRequestAddMember = async (memberEmail: string, paymentProofImage: string) => {
@@ -263,7 +263,7 @@ const App: React.FC = () => {
                 approveAddMemberRequest={handleApproveAddMemberRequest}
                 rejectAddMemberRequest={handleRejectAddMemberRequest}
                 models={roboflowModels}
-                onUpdateModels={async (m) => { await backend.saveRoboflowModels(m); setRoboflowModels(m); setActiveModel(m.find(model => model.isActive) || null); }}
+                onUpdateModels={async (m) => { await backend.saveRoboflowModels(m); setRoboflowModels(m); setActiveModel(m.find((model: RoboflowModel) => model.isActive) || null); }}
                 reviews={reviews}
                 onUpdateReviews={async (r) => { await backend.saveReviews(r); setReviews(r); }}
             />;
@@ -293,7 +293,7 @@ const App: React.FC = () => {
             allUsers={allUsers}
             projects={projects}
             setProjects={handleUpdateProjects}
-            onProjectSelect={(id) => setActiveProjectId(id)}
+            onProjectSelect={(id: string) => setActiveProjectId(id)}
             onLogout={handleLogout}
             onChangePlan={() => setIsChangingPlan(true)}
             onMarkNotificationAsRead={handleMarkNotificationAsRead}
