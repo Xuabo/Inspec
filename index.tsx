@@ -1,7 +1,7 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-import './index.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -10,6 +10,7 @@ if (!rootElement) {
 
 const root = ReactDOM.createRoot(rootElement);
 
+// The application now has a single entry point.
 root.render(
   <React.StrictMode>
     <App />
