@@ -1,6 +1,6 @@
 <change>
 <file>package.json</file>
-<description>Fix typo in @google/genai version (change 0.21.0 to 0.2.0) to resolve npm install errors on Vercel.</description>
+<description>Correct @google/genai version from 0.21.0 (non-existent) to 0.2.0 to fix Vercel install error.</description>
 <content><![CDATA[
 {
 "name": "inspec-ai",
