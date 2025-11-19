@@ -8,7 +8,6 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -23,5 +22,5 @@
     /* Environment types */
     "types": ["node", "vite/client"]
   },
-  "include": [".", "src"]
+  "include": ["."]
 }

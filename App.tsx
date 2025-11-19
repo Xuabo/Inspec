@@ -263,9 +263,9 @@ const App: React.FC = () => {
                 approveAddMemberRequest={handleApproveAddMemberRequest}
                 rejectAddMemberRequest={handleRejectAddMemberRequest}
                 models={roboflowModels}
-                onUpdateModels={async (m) => { await backend.saveRoboflowModels(m); setRoboflowModels(m); setActiveModel(m.find((model: RoboflowModel) => model.isActive) || null); }}
+                onUpdateModels={async (m: RoboflowModel[]) => { await backend.saveRoboflowModels(m); setRoboflowModels(m); setActiveModel(m.find((model: RoboflowModel) => model.isActive) || null); }}
                 reviews={reviews}
-                onUpdateReviews={async (r) => { await backend.saveReviews(r); setReviews(r); }}
+                onUpdateReviews={async (r: Review[]) => { await backend.saveReviews(r); setReviews(r); }}
             />;
         }
 
