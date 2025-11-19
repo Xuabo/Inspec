@@ -25,6 +25,6 @@
     /* Environment types */
     "types": ["node", "vite/client"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "vite-env.d.ts"],
-  "exclude": ["node_modules"]
+  "include": ["./**/*"],
+  "exclude": ["node_modules", "dist"]
 }
